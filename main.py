@@ -1,16 +1,21 @@
-# This is a sample Python script.
+from modules import *
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+print('Программа "Заметки". Выберите действие: ')
 
+print('1 - Показать все заметки.',
+      '2 - Добавить заметку.',
+      '3 - Выбрать заметку.')
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+select = input()
+match select:
+    case '1':
+        # show_notes()
+        print()
+    case '2':
+        # add_note()
+        print()
+    case '3':
+        # pick_note()
+        print()
+    case _:
+        print('Неверный ввод!')
