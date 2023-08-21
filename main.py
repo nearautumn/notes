@@ -13,7 +13,7 @@ match select:
     case '1':
         show_notes(notes)
     case '2':
-        # add_note()
+        add_note(notes)
         print()
     case '3':
         # pick_note()
