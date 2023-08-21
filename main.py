@@ -1,5 +1,7 @@
 from modules import *
 
+notes = 'notes.csv'
+
 print('Программа "Заметки". Выберите действие: ')
 
 print('1 - Показать все заметки.',
@@ -9,8 +11,7 @@ print('1 - Показать все заметки.',
 select = input()
 match select:
     case '1':
-        # show_notes()
-        print()
+        show_notes(notes)
     case '2':
         # add_note()
         print()
