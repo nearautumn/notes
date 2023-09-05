@@ -69,12 +69,13 @@ def pick_note(file: str):
             note = str(list_of_rows[i])
             if user_id == note[:note.find(';')]:
                 note_id = user_id
+                index = i
                 print(f'1 - редактировать заметку {note_id}, \n'
                       f'2 - удалить заметку {note_id}')
                 select_operation = input()
                 match select_operation:
                     case '1':
-                        edit_note(list_of_rows, note_id)
+                        edit_note(file, list_of_rows, index)
                     case '2':
                         # delete_note(file, note_id)
                         print()
@@ -86,5 +87,14 @@ def pick_note(file: str):
                 break
 
 
-def edit_note(rows_list, note_id: str):
+def edit_note(file: str, rows_list: list, index: int):
     list_of_rows = rows_list
+
+    note_name = input('Введите название заметки: ')
+    note_text = input('Введите текст заметки: ')
+    note_date = datetime.now()
+
+    list_of_rows[index] = str(find_max_id(list_of_rows) + 1) + ';' + note_name + ';' + note_text + ';' \
+                          + str(note_date) + '\n'
+
+    write_file(file, list_of_rows)
