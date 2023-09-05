@@ -11,12 +11,10 @@ print('1 - Показать все заметки.',
 select = input()
 match select:
     case '1':
-        show_notes(notes)
+        show_notes(file=notes)
     case '2':
-        add_note(notes)
-        print()
+        add_note(file=notes)
     case '3':
-        # pick_note()
-        print()
+        pick_note(file=notes)
     case _:
         print('Неверный ввод!')

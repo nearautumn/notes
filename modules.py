@@ -28,8 +28,12 @@ def find_max_id(list_of_rows: list) -> int:
 
 def show_notes(file: str):
     list_of_rows = read_file(file)
-    user_view = [d.replace(';', '|') for d in list_of_rows]
-    print(*user_view)
+    if list_of_rows:
+        user_view = [d.replace(';', '|') for d in list_of_rows]
+        print(*user_view)
+    else:
+        print('Заметок нет')
+        return -1  # код ошибки
 
 
 def add_note(file: str):
@@ -53,4 +57,34 @@ def add_note(file: str):
     print('Запись успешно создана!')
 
 
+def pick_note(file: str):
+    if show_notes(file) == -1:
+        pass
+    else:
+        user_id = input('Введите ID заметки, которую хотите выбрать: ')
 
+        list_of_rows = read_file(file)
+
+        for i in range(1, len(list_of_rows)):
+            note = str(list_of_rows[i])
+            if user_id == note[:note.find(';')]:
+                note_id = user_id
+                print(f'1 - редактировать заметку {note_id}, \n'
+                      f'2 - удалить заметку {note_id}')
+                select_operation = input()
+                match select_operation:
+                    case '1':
+                        edit_note(list_of_rows, note_id)
+                    case '2':
+                        # delete_note(file, note_id)
+                        print()
+                    case _:
+                        print('Неверный ввод!')
+                break
+            else:
+                print('Нет такой заметки!')
+                break
+
+
+def edit_note(rows_list, note_id: str):
+    list_of_rows = rows_list
