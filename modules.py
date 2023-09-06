@@ -77,24 +77,26 @@ def pick_note(file: str):
                     case '1':
                         edit_note(file, list_of_rows, index)
                     case '2':
-                        # delete_note(file, note_id)
-                        print()
+                        delete_note(file, list_of_rows, index)
                     case _:
                         print('Неверный ввод!')
-                break
-            else:
-                print('Нет такой заметки!')
-                break
+                return
+
+        print('Нет такой заметки!')
 
 
-def edit_note(file: str, rows_list: list, index: int):
-    list_of_rows = rows_list
-
+def edit_note(file: str, list_of_rows: list, index: int):
     note_name = input('Введите название заметки: ')
     note_text = input('Введите текст заметки: ')
     note_date = datetime.now()
 
     list_of_rows[index] = str(find_max_id(list_of_rows) + 1) + ';' + note_name + ';' + note_text + ';' \
                           + str(note_date) + '\n'
+
+    write_file(file, list_of_rows)
+
+
+def delete_note(file: str, list_of_rows: list, index: int):
+    list_of_rows.pop(index)
 
     write_file(file, list_of_rows)
