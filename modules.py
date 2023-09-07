@@ -45,17 +45,31 @@ def find_max_id(list_of_rows: list) -> int:
 
 def show_notes(file: str):
     """
-    Выводит в консоль перечень всех заметок, содержащихся в файле
+    Выводит в консоль перечень всех заметок, содержащихся в файле. Позволяет отсортировать заметки по дате
     :param file: строка, содержащая в себе путь к файлу note.csv
     :return:
     """
+    print('Показать все заметки или отсортировать по дате?')
+    print('1 - Показать все')
+    print('2 - Отсортировать по дате')
+    user_input = input()
     list_of_rows = read_file(file)
-    if list_of_rows:
-        user_view = [d.replace(';', '|') for d in list_of_rows]
-        print(*user_view)
-    else:
-        print('Заметок нет')
-        return -1  # код ошибки
+    match user_input:
+        case '1':
+            if list_of_rows:
+                user_view = [d.replace(';', '|') for d in list_of_rows]
+                print(*user_view)
+            else:
+                print('Заметок нет')
+                return -1  # код ошибки
+        case '2':
+            if list_of_rows:
+                show_notes_by_data(list_of_rows)
+            else:
+                print('Заметок нет')
+                return -1  # код ошибки
+        case _:
+            print('Неверный ввод!')
 
 
 def add_note(file: str):
@@ -76,7 +90,7 @@ def add_note(file: str):
 
     note_name = input('Введите название заметки: ')
     note_text = input('Введите текст заметки: ')
-    note_date = datetime.now()
+    note_date = datetime.now().date()
 
     new_line = str(note_id) + ';' + note_name + ';' + note_text + ';' + str(note_date) + '\n'
     list_of_rows.append(new_line)
@@ -127,7 +141,7 @@ def edit_note(file: str, list_of_rows: list, index: int):
     """
     note_name = input('Введите название заметки: ')
     note_text = input('Введите текст заметки: ')
-    note_date = datetime.now()
+    note_date = datetime.now().date()
 
     list_of_rows[index] = str(find_max_id(list_of_rows) + 1) + ';' + note_name + ';' + note_text + ';' \
                           + str(note_date) + '\n'
@@ -146,3 +160,30 @@ def delete_note(file: str, list_of_rows: list, index: int):
     list_of_rows.pop(index)
 
     write_file(file, list_of_rows)
+
+
+def show_notes_by_data(list_of_rows: list):
+    """
+    Выводит в консоль заметки в заданном пользователем интервале по дате
+    :param list_of_rows: список строк, прочитанных из файла notes.csv
+    :return:
+    """
+    print('Дата начала')
+    start_day = input('Введите день: ')
+    start_month = input('Введите месяц: ')
+    start_year = input('Введите год: ')
+    start_date = datetime(int(start_year), int(start_month), int(start_day))
+
+    print('Дата окончания')
+    end_day = input('Введите день: ')
+    end_month = input('Введите месяц: ')
+    end_year = input('Введите год: ')
+    end_date = datetime(int(end_year), int(end_month), int(end_day))
+
+    list_of_id = []
+    for i in range(1, len(list_of_rows)):
+        line = list_of_rows[i]
+        date_str = line[-11:]
+        date = datetime(int(date_str[:4]), int(date_str[5:7]), int(date_str[8:]))
+        if start_date < date < end_date:
+            print(line)
