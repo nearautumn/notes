@@ -180,7 +180,6 @@ def show_notes_by_data(list_of_rows: list):
     end_year = input('Введите год: ')
     end_date = datetime(int(end_year), int(end_month), int(end_day))
 
-    list_of_id = []
     for i in range(1, len(list_of_rows)):
         line = list_of_rows[i]
         date_str = line[-11:]
